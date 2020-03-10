@@ -78,4 +78,4 @@ app.listen(3001, function () {
 
 
 ## 开源协议
-![](https://img.shields.io/badge/License-ISC-blue)
+![ISC](https://img.shields.io/badge/License-ISC-blue)
