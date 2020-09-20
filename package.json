@@ -1,6 +1,6 @@
 {
   "name": "@escook/express-joi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "基于 @hapi/joi，用于校验 body、query 和 params 的 express 中间件。",
   "dependencies": {
     "@hapi/joi": "^17.1.0"

@@ -1,19 +1,23 @@
 ## 安装
+
 ```bash
 npm install @escook/express-joi
 ```
 
 ## 依赖
+
 ```bash
 npm install @hapi/joi@17.1.0
 ```
 
 ## 导入
+
 ```js
 const expressJoi = require('@escook/express-joi')
 ```
 
 ## 使用
+
 ```js
 const express = require('express')
 const app = express()
@@ -26,22 +30,24 @@ const expressJoi = require('@escook/express-joi')
 app.use(express.urlencoded({ extended: false }))
 
 // 2. 定义验证规则
+// 注意：如果客户端提交的某些参数项未在 schema 中定义，
+// 此时，这些多余的参数项默认会被忽略掉
 const userSchema = {
   // 2.1 校验 req.body 中的数据
   body: {
     username: Joi.string().alphanum().min(3).max(12).required(),
-    password: Joi.string().pattern(/^[\S]{6,15}$/),
-    repassword: Joi.ref('password')
+    password: Joi.string().pattern(/^[\S]{6,15}$/).required(),
+    repassword: Joi.ref('password'),
   },
   // 2.2 校验 req.query 中的数据
   query: {
     name: Joi.string().alphanum().min(3).required(),
-    age: Joi.number().integer().min(1).max(100).required()
+    age: Joi.number().integer().min(1).max(100).required(),
   },
   // 2.3 校验 req.params 中的数据
   params: {
-    id: Joi.number().integer().min(0).required()
-  }
+    id: Joi.number().integer().min(0).required(),
+  },
 }
 
 // 3. 在路由中通过 expressJoi(userSchema) 的方式
@@ -57,13 +63,13 @@ app.use(function (err, req, res, next) {
   if (err instanceof Joi.ValidationError) {
     return res.send({
       status: 1,
-      message: err.message
+      message: err.message,
     })
   }
   // 4.2 未知错误
   res.send({
     status: 1,
-    message: err.message
+    message: err.message,
   })
 })
 
@@ -74,8 +80,9 @@ app.listen(3001, function () {
 ```
 
 ## 验证规则
-更多的验证规则，请参考 [Joi](https://hapi.dev/family/joi/) 的官方文档。
 
+更多的验证规则，请参考 [Joi](https://joi.dev/) 的官方文档。
 
 ## 开源协议
+
 ![ISC](https://img.shields.io/badge/License-ISC-blue)
