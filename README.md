@@ -7,7 +7,7 @@ npm install @escook/express-joi
 ## 依赖
 
 ```bash
-npm install @hapi/joi@17.1.0
+npm install joi@17.4.0
 ```
 
 ## 导入
@@ -22,7 +22,7 @@ const expressJoi = require('@escook/express-joi')
 const express = require('express')
 const app = express()
 // 导入 Joi 来定义验证规则
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 // 1. 导入 @escook/express-joi
 const expressJoi = require('@escook/express-joi')
 
@@ -36,18 +36,20 @@ const userSchema = {
   // 2.1 校验 req.body 中的数据
   body: {
     username: Joi.string().alphanum().min(3).max(12).required(),
-    password: Joi.string().pattern(/^[\S]{6,15}$/).required(),
-    repassword: Joi.ref('password'),
+    password: Joi.string()
+      .pattern(/^[\S]{6,15}$/)
+      .required(),
+    repassword: Joi.ref('password')
   },
   // 2.2 校验 req.query 中的数据
   query: {
     name: Joi.string().alphanum().min(3).required(),
-    age: Joi.number().integer().min(1).max(100).required(),
+    age: Joi.number().integer().min(1).max(100).required()
   },
   // 2.3 校验 req.params 中的数据
   params: {
-    id: Joi.number().integer().min(0).required(),
-  },
+    id: Joi.number().integer().min(0).required()
+  }
 }
 
 // 3. 在路由中通过 expressJoi(userSchema) 的方式
@@ -63,13 +65,13 @@ app.use(function (err, req, res, next) {
   if (err instanceof Joi.ValidationError) {
     return res.send({
       status: 1,
-      message: err.message,
+      message: err.message
     })
   }
   // 4.2 未知错误
   res.send({
     status: 1,
-    message: err.message,
+    message: err.message
   })
 })
 

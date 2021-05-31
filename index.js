@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 
 const expressJoi = function (schemas, options = { strict: false }) {
   // 自定义校验选项
@@ -15,7 +15,7 @@ const expressJoi = function (schemas, options = { strict: false }) {
 
   // TODO: 用户指定了什么 schema，就应该校验什么样的数据
   return function (req, res, next) {
-    ;['body', 'query', 'params'].forEach((key) => {
+    ;['body', 'query', 'params'].forEach(key => {
       // 如果当前循环的这一项 schema 没有提供，则不执行对应的校验
       if (!schemas[key]) return
 
